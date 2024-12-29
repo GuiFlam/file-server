@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Download Files</title>
+    </head>
+    <body>
+        <h2>Download a File</h2>
+
+        <ul id="fileList">
+            <!-- File list will be dynamically populated here -->
+        </ul>
+
+        <script>
+            // Fetch the list of files from the server
+            fetch("/list-files")
+                .then((response) => response.json())
+                .then((files) => {
+                    const fileListElement = document.getElementById("fileList");
+
+                    files.forEach((file) => {
+                        const listItem = document.createElement("li");
+                        const downloadLink = document.createElement("a");
+                        downloadLink.href = `/download?file_name=${file}`;
+                        downloadLink.textContent = `Download ${file}`;
+                        listItem.appendChild(downloadLink);
+                        fileListElement.appendChild(listItem);
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error fetching file list:", error);
+                });
+        </script>
+    </body>
+</html>
